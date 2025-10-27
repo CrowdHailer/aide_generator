@@ -1,5 +1,7 @@
 # aide_generator
 
+Generate encoders and decoders for MCP tools 
+
 [![Package Version](https://img.shields.io/hexpm/v/aide_generator)](https://hex.pm/packages/aide_generator)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/aide_generator/)
 
