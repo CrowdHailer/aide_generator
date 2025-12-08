@@ -48,13 +48,94 @@ pub fn generate(tools) {
     defs(custom |> list.append([collective_type(tools)])),
     [],
     [],
-    defs(fns),
+    defs(list.append(fns, [name_fn(tools), encode_fn(tools)])),
   )
   |> glance_printer.print
 }
 
 fn defs(xs) {
   list.map(xs, glance.Definition([], _))
+}
+
+fn name_fn(tools) {
+  glance.Function(
+    name: "call_name",
+    publicity: glance.Public,
+    parameters: [
+      glance.FunctionParameter(
+        label: None,
+        name: glance.Named("call"),
+        type_: None,
+      ),
+    ],
+    return: None,
+    body: [
+      glance.Expression(glance.Case(
+        [glance.Variable("call")],
+        list.map(tools, fn(tool) {
+          glance.Clause(
+            [
+              [
+                glance.PatternConstructor(
+                  None,
+                  ast.name_for_gleam_type(tool),
+                  [],
+                  True,
+                ),
+              ],
+            ],
+            None,
+            glance.String(tool),
+          )
+        }),
+      )),
+    ],
+    location: glance.Span(0, 0),
+  )
+}
+
+fn encode_fn(tools) {
+  glance.Function(
+    name: "call_encode",
+    publicity: glance.Public,
+    parameters: [
+      glance.FunctionParameter(
+        label: None,
+        name: glance.Named("call"),
+        type_: None,
+      ),
+    ],
+    return: None,
+    body: [
+      glance.Expression(glance.Case(
+        [glance.Variable("call")],
+        list.map(tools, fn(tool) {
+          glance.Clause(
+            [
+              [
+                glance.PatternConstructor(
+                  None,
+                  ast.name_for_gleam_type(tool),
+                  [
+                    glance.ShorthandField("input"),
+                  ],
+                  True,
+                ),
+              ],
+            ],
+            None,
+            glance.Call(
+              glance.Variable(ast.name_for_gleam_field_or_var(
+                tool <> "_input_encode",
+              )),
+              [glance.UnlabelledField(glance.Variable("input"))],
+            ),
+          )
+        }),
+      )),
+    ],
+    location: glance.Span(0, 0),
+  )
 }
 
 fn collective_type(tools) {

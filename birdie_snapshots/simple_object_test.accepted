@@ -22,6 +22,18 @@ pub type FlipOutput {
   FlipOutput(output: Bool)
 }
 
+pub fn call_encode(call) {
+  case call {
+    Flip(input:, ..) -> flip_input_encode(input)
+  }
+}
+
+pub fn call_name(call) {
+  case call {
+    Flip(..) -> "flip"
+  }
+}
+
 pub fn flip_output_decoder() {
   use output <- decode.field("output", decode.bool)
   decode.success(FlipOutput(output: output))
