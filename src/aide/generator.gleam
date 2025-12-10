@@ -18,7 +18,7 @@ fn to_schema(fields: tool.ObjectSchema) -> json_schema.Schema {
 pub fn generate(tools) {
   let #(tools, specs) =
     list.map(tools, fn(tool) {
-      let tool.Spec(name:, input:, output:) = tool
+      let tool.Spec(name:, input:, output:, ..) = tool
       #(name, [
         #(name <> "_input", input |> to_schema),
         #(name <> "_output", output |> to_schema),
