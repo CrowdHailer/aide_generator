@@ -25,9 +25,10 @@ pub fn generate(tools) {
       ])
     })
     |> list.unzip
-  let assert Ok(#(custom, _alias, fns)) =
+  let assert Ok(#(custom, alias, fns)) =
     schema.generate(specs |> list.flatten |> dict.from_list)
     |> generator.run_single_location("#")
+
   let imports =
     [
       glance.Import("gleam/dynamic/decode", None, [], []),
@@ -46,7 +47,7 @@ pub fn generate(tools) {
   glance.Module(
     defs(imports),
     defs(custom |> list.append([collective_type(tools)])),
-    [],
+    defs(alias),
     [],
     defs(list.append(fns, [name_fn(tools), encode_fn(tools)])),
   )

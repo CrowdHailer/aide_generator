@@ -18,3 +18,19 @@ pub fn simple_object_test() {
   let output = generator.generate(tools)
   birdie.snap(output, "simple_object_test")
 }
+
+pub fn empty_input_test() {
+  let tools = [
+    tool.Spec(
+      name: "random",
+      title: "Random",
+      description: "Get a random value",
+      input: [],
+      output: [
+        json_schema.field("output", json_schema.integer()),
+      ],
+    ),
+  ]
+  let output = generator.generate(tools)
+  birdie.snap(output, "empty_input_test")
+}
