@@ -1,4 +1,5 @@
 import aide/tool
+import castor
 import glance
 import glance_printer
 import gleam/dict
@@ -7,12 +8,11 @@ import gleam/option.{None, Some}
 import oas/generator
 import oas/generator/ast
 import oas/generator/schema
-import oas/json_schema
 
 // [decode.map(flip_input_decoder,Flip(_, flip_output_encode))]
 
-fn to_schema(fields: tool.ObjectSchema) -> json_schema.Schema {
-  json_schema.object(fields)
+fn to_schema(fields: tool.ObjectSchema) -> castor.Schema {
+  castor.object(fields)
 }
 
 pub fn generate(tools) {

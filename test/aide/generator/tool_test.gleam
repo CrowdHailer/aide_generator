@@ -1,7 +1,7 @@
 import aide/generator
 import aide/tool
 import birdie
-import oas/json_schema
+import castor
 
 pub fn simple_object_test() {
   let tools = [
@@ -9,9 +9,9 @@ pub fn simple_object_test() {
       name: "flip",
       title: "Flip",
       description: "Flip a boolean",
-      input: [json_schema.field("value", json_schema.boolean())],
+      input: [castor.field("value", castor.boolean())],
       output: [
-        json_schema.field("output", json_schema.boolean()),
+        castor.field("output", castor.boolean()),
       ],
     ),
   ]
@@ -27,7 +27,7 @@ pub fn empty_input_test() {
       description: "Get a random value",
       input: [],
       output: [
-        json_schema.field("output", json_schema.integer()),
+        castor.field("output", castor.integer()),
       ],
     ),
   ]
